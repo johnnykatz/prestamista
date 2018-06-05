@@ -45,6 +45,7 @@ class Prestamo extends Model
         'estado_prestamo_id',
         'creado_por',
         'monto_pendiente',
+        'nombre_identificador',
     ];
 
     /**
@@ -60,7 +61,8 @@ class Prestamo extends Model
         'amortizacion_id' => 'integer',
         'modalidad_pago_id' => 'integer',
         'estado_prestamo_id' => 'integer',
-        'creado_por' => 'integer'
+        'creado_por' => 'integer',
+        'nombre_identificador' => 'string',
     ];
 
     /**

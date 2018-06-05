@@ -4,6 +4,11 @@
     {!! Form::select('cliente_id',$clientes,null,['class'=>'form-control','placeholder'=>'Seleccione...','required']) !!}
 
 </div>
+<!-- Fecha Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('nombre_identificador', 'Nombre Identificador:') !!}
+    {!! Form::text('nombre_identificador',null,['class'=>'form-control']) !!}
+</div>
 <!-- Cuotas Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('monto', 'Monto a prestar:') !!}

@@ -26,6 +26,7 @@ class CreatePrestamosTable extends Migration
             $table->integer('modalidad_pago_id')->unsigned();
             $table->integer('estado_prestamo_id')->unsigned();
             $table->integer('creado_por')->unsigned();
+            $table->string('nombre_identificador')->nullable()->default(null);
             $table->text('observacion')->nullable()->default(null);
             $table->timestamps();
             $table->softDeletes();

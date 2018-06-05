@@ -3,6 +3,7 @@
         <thead>
         <tr>
             <th>Cliente</th>
+            <th>Identificador</th>
             <th>Fecha Inicio</th>
             <th>Amortizacion</th>
             <th>Capital Prestado</th>
@@ -18,6 +19,7 @@
         @foreach($prestamos as $prestamo)
             <tr>
                 <td>{!! $prestamo->cliente->full_name !!}</td>
+                <td>{!! $prestamo->nombre_identificador!!}</td>
                 <td>{!! date("d-m-Y", strtotime($prestamo->fecha_inicio)) !!}</td>
                 <td>{!! $prestamo->amortizacion->nombre or null !!}</td>
                 <td>$ {!! $prestamo->monto !!}</td>
@@ -34,7 +36,7 @@
                                     class="glyphicon glyphicon-eye-open"></i></a>
                         <a href="{!! route('admin.prestamos.edit', [$prestamo->id]) !!}" class='btn btn-default btn-xs'><i
                                     class="glyphicon glyphicon-edit"></i></a>
-{{--                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}--}}
+                        {{--                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}--}}
                     </div>
                     {!! Form::close() !!}
                 </td>
