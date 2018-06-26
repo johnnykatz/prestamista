@@ -6,8 +6,10 @@ use App\Http\Requests\Admin\CreatePrestamoRequest;
 use App\Http\Requests\Admin\UpdatePrestamoRequest;
 use App\Models\Admin\Amortizacion;
 use App\Models\Admin\Cliente;
+use App\Models\Admin\EstadoPrestamo;
 use App\Models\Admin\ModalidadPago;
 use App\Models\Admin\Pago;
+use App\Models\Admin\Prestamo;
 use App\Repositories\Admin\PrestamoRepository;
 use App\Http\Controllers\AppBaseController;
 use Carbon\Carbon;
@@ -36,7 +38,7 @@ class PrestamoController extends AppBaseController
     public function index(Request $request)
     {
         $this->prestamoRepository->pushCriteria(new RequestCriteria($request));
-        $prestamos = $this->prestamoRepository->all();
+        $prestamos = Prestamo::orderBy('estado_prestamo_id','ASC')->get();
 
         return view('admin.prestamos.index')
             ->with('prestamos', $prestamos);
@@ -127,12 +129,14 @@ class PrestamoController extends AppBaseController
         $clientes = Cliente::orderBy('nombre', 'ASC')->get()->pluck('full_name', 'id');
         $amortizaciones = Amortizacion::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
         $modalidades = ModalidadPago::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
+        $estados = EstadoPrestamo::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
 
         return view('admin.prestamos.edit')->with([
-            'prestamo', $prestamo,
+            'prestamo'=> $prestamo,
             'clientes' => $clientes,
             'amortizaciones' => $amortizaciones,
             'modalidades' => $modalidades,
+            'estados' => $estados,
         ]);
     }
 
