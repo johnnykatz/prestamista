@@ -82,7 +82,7 @@ class PrestamoRepository extends BaseRepository
         return $result;
     }
 
-    private function getVencimiento($fecha_inicio, $modalidad)
+    public function getVencimiento($fecha_inicio, $modalidad)
     {
         $fecha = Carbon::createFromFormat('Y-m-d', $fecha_inicio);
         switch ($modalidad) {
