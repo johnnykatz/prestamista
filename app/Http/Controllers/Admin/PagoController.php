@@ -85,7 +85,7 @@ class PagoController extends AppBaseController
 
             $prestamo->monto_pendiente = $prestamo->monto_pendiente - $request['capital'];
 
-            if ($pago->cuota = $prestamo->cuotas) {
+            if ($pago->numero_cuota == $prestamo->cuotas) {
                 $prestamo->estado_prestamo_id = 2;//terminado
             }
             $prestamo->save();
