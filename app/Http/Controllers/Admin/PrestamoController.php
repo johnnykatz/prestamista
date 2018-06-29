@@ -53,7 +53,7 @@ class PrestamoController extends AppBaseController
     {
         $clientes = Cliente::orderBy('nombre', 'ASC')->get()->pluck('full_name', 'id');
         $amortizaciones = Amortizacion::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
-        $modalidades = ModalidadPago::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
+        $modalidades = ModalidadPago::orderBy('nombre', 'DESC')->pluck('nombre', 'id');
 
         return view('admin.prestamos.create')->with([
             'clientes' => $clientes,

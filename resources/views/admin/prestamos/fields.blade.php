@@ -12,7 +12,7 @@
 <!-- Cuotas Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('monto', 'Monto a prestar:') !!}
-    {!! Form::text('monto', null, ['class' => 'form-control','required']) !!}
+    {!! Form::number('monto', null, ['class' => 'form-control','required']) !!}
 </div>
 
 <!-- Interes Field -->
