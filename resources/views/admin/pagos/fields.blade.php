@@ -3,14 +3,17 @@
     {!! Form::label('fecha', 'Fecha:') !!}
     {!! Form::text('fecha',(isset($pago['fecha']))? $pago['fecha']:date("d-m-Y"),['class'=>'form-control datepicker', 'readonly']) !!}
     {!! Form::text('prestamo_id',$prestamo->id,['class'=>'form-control hidden',]) !!}
-    {!! Form::text('capital',$datos['cuota'],['class'=>'form-control hidden',]) !!}
-    {!! Form::text('interes',$datos['interes'],['class'=>'form-control hidden',]) !!}
+    {!! Form::text('pago_id',$pago->id,['class'=>'form-control hidden',]) !!}
+    {!! Form::text('monto',$pago->total_pago,['class'=>'form-control hidden','id'=>'monto']) !!}
+    {!! Form::text('interes',$pago->interes,['class'=>'form-control hidden','id'=>'interes']) !!}
+    {!! Form::text('capital',$pago->capital,['class'=>'form-control hidden',]) !!}
+    {{--    {!! Form::text('interes',$datos['interes'],['class'=>'form-control hidden',]) !!}--}}
 </div>
 
-<!-- Fecha Field -->
+<!-- Forma Pago Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('total_pago', 'Monto a Pagar:') !!}
-    {!! Form::text('total_pago', number_format($datos['total_pago'],2,',','.'), ['class' => 'form-control','required']) !!}
+    {!! Form::label('pagar', 'Pagar:') !!}
+    {!! Form::select('pagar',["cuota"=>"Cuota","interes"=>"Interes"],null,['class'=>'form-control','required','onchange'=>'seleccionarPagar()']) !!}
 </div>
 
 <!-- Estado Field -->
@@ -23,6 +26,10 @@
 <div class="form-group col-sm-6">
     {!! Form::label('descuento', 'Descuento:') !!}
     {!! Form::text('descuento', null, ['class' => 'form-control']) !!}
+</div>
+<div class="form-group col-sm-6">
+    {!! Form::label('total_pago', 'Monto a Pagar:') !!}
+    {!! Form::text('total_pago', number_format($pago->total_pago,2,',','.'), ['class' => 'form-control','required','readonly']) !!}
 </div>
 
 <!-- Forma Pago Id Field -->

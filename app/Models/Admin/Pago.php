@@ -41,7 +41,9 @@ class Pago extends Model
         'estado',
         'forma_pago_id',
         'creado_por',
-        'prestamo_id'
+        'prestamo_id',
+        'numero_cuota',
+        'fecha_vencimiento',
     ];
 
     /**

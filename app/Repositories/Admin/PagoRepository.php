@@ -40,14 +40,9 @@ class PagoRepository extends BaseRepository
         return Pago::class;
     }
 
-    public function getDatosPago($prestamo)
+    public function getDatosProximoPago($prestamo)
     {
-        $cuota = $prestamo->monto / $prestamo->cuotas;
-        $interes = ($prestamo->monto * $prestamo->interes) / 100;
-        $datos['cuota'] = $cuota;
-        $datos['interes'] = $interes;
-        $datos['total_pago'] = $cuota + $interes;
-        return $datos;
-
+        $pago = Pago::where('prestamo_id', $prestamo->id)->where('estado', false)->orderBy('numero_cuota', 'ASC')->limit(1)->first();
+        return $pago;
     }
 }

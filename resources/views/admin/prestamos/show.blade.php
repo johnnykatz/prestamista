@@ -12,7 +12,7 @@
                 <div class="row" style="padding-left: 20px">
                     @include('admin.prestamos.show_fields')
                     <a href="{!! route('admin.pagos.create',['id'=>$prestamo->id]) !!}" class="btn btn-success">Registrar Pago</a>
-                    <a href="{!! route('admin.prestamos.index') !!}" class="btn btn-default">Back</a>
+                    <a href="{!! route('admin.prestamos.index') !!}" class="btn btn-default">Volver</a>
                 </div>
             </div>
         </div>

@@ -4,11 +4,6 @@
     {!! Form::select('cliente_id',$clientes,null,['class'=>'form-control','placeholder'=>'Seleccione...','required']) !!}
 
 </div>
-<div class="form-group col-sm-6">
-    {!! Form::label('estado_prestamo_id', 'Estado:') !!}
-    {!! Form::select('estado_prestamo_id',$estados,null,['class'=>'form-control','placeholder'=>'Seleccione...','required']) !!}
-
-</div>
 <!-- Fecha Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('nombre_identificador', 'Nombre Identificador:') !!}
@@ -23,7 +18,7 @@
 <!-- Interes Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('interes', 'Interes:') !!}
-    {!! Form::text('interes', null, ['class' => 'form-control','required']) !!}
+    {!! Form::number('interes', null, ['class' => 'form-control','required','step'=>'0.5']) !!}
 </div>
 
 <!-- Cuotas Field -->
@@ -47,8 +42,13 @@
 </div>
 <!-- Fecha Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_inicio', 'Fecha de Inicio:') !!}
-    {!! Form::text('fecha_inicio',(isset($prestamo['fecha_inicio']))? $prestamo['fecha_inicio']:'',['class'=>'form-control datepicker', 'readonly']) !!}
+    {!! Form::label('fecha_inicio', 'Fecha de Creacion:') !!}
+    {!! Form::text('fecha_inicio',(isset($prestamo['fecha_inicio']))? $prestamo['fecha_inicio']:date('d-m-Y'),['class'=>'form-control datepicker', 'readonly']) !!}
+</div>
+<!-- Fecha Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('fecha_primer_pago', 'Fecha primer pago:') !!}
+    {!! Form::text('fecha_primer_pago',date('d-m-Y'),['class'=>'form-control datepicker', 'readonly']) !!}
 </div>
 <!-- Observacion Field -->
 <div class="form-group col-sm-12 col-lg-12">
@@ -59,4 +59,15 @@
 <div class="form-group col-sm-12">
     {!! Form::submit('Guardar', ['class' => 'btn btn-primary']) !!}
     <a href="{!! route('admin.prestamos.index') !!}" class="btn btn-default">Cancelar</a>
+
+    <button
+            type="button"
+            class="btn btn-success"
+            {{--data-toggle="modal"--}}
+            onclick="getAmortizacion('{!! route('get_amortizacion') !!}')"
+            {{--data-target="#amortizacion_modal">--}}
+        >Ver amortizacion
+    </button>
+
+    {{--<a href="{!! route('admin.prestamos.index') !!}" class="btn btn-success">Ver Amortizacion</a>--}}
 </div>

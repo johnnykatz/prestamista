@@ -8,9 +8,9 @@
 </li>
 
 
-<li class="{{ Request::is('pagos*') ? 'active' : '' }}">
-    <a href="{!! route('admin.pagos.index') !!}"><i class="fa fa-edit"></i><span>Pagos</span></a>
-</li>
+{{--<li class="{{ Request::is('pagos*') ? 'active' : '' }}">--}}
+    {{--<a href="{!! route('admin.pagos.index') !!}"><i class="fa fa-edit"></i><span>Pagos</span></a>--}}
+{{--</li>--}}
 
 @role("admin")
 <li class="{{ (Request::is('admin/puestoTrabajos*')) ? 'active' : '' }} treeview">

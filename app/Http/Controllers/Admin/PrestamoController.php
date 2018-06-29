@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -37,10 +38,9 @@ class PrestamoController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $this->prestamoRepository->pushCriteria(new RequestCriteria($request));
-        $prestamos = Prestamo::orderBy('estado_prestamo_id','ASC')->get();
-
+        $prestamos = $this->prestamoRepository->getPrestamosFilter($request);
         return view('admin.prestamos.index')
+            ->with('filtro', $request->all())
             ->with('prestamos', $prestamos);
     }
 
@@ -71,6 +71,7 @@ class PrestamoController extends AppBaseController
      */
     public function store(CreatePrestamoRequest $request)
     {
+        DB::beginTransaction();
         $request['creado_por'] = Auth::user()->id;
         $request['estado_prestamo_id'] = 1; //activo
         $request['monto_pendiente'] = $request['monto'];
@@ -81,6 +82,22 @@ class PrestamoController extends AppBaseController
         }
         $input = $request->all();
         $prestamo = $this->prestamoRepository->create($input);
+
+        $amortizacion = $this->prestamoRepository->getAmortizacion($request);
+        foreach ($amortizacion as $dato) {
+            $pago = new Pago();
+            $pago->creado_por = $request['creado_por'];
+            $pago->prestamo_id = $prestamo->id;
+            $pago->capital = $dato['capital_cuota'];
+            $pago->interes = $dato['interes'];
+            $pago->total_pago = $dato['total_pago'];
+            $pago->numero_cuota = $dato['cuota'];
+            $pago->fecha_vencimiento = $dato['fecha_vencimiento'];
+            $pago->estado = false;
+            $pago->save();
+
+        }
+        DB::commit();
 
         Flash::success('Prestamo saved successfully.');
 
@@ -103,7 +120,7 @@ class PrestamoController extends AppBaseController
 
             return redirect(route('admin.prestamos.index'));
         }
-        $pagos = Pago::where('prestamo_id', $prestamo->id)->orderBy('id', 'asc')->get();
+        $pagos = Pago::where('prestamo_id', $prestamo->id)->orderBy('fecha_vencimiento', 'asc')->orderBy('numero_cuota','asc')->get();
         return view('admin.prestamos.show')->with([
             'prestamo' => $prestamo,
             'pagos' => $pagos,
@@ -129,14 +146,12 @@ class PrestamoController extends AppBaseController
         $clientes = Cliente::orderBy('nombre', 'ASC')->get()->pluck('full_name', 'id');
         $amortizaciones = Amortizacion::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
         $modalidades = ModalidadPago::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
-        $estados = EstadoPrestamo::orderBy('nombre', 'ASC')->pluck('nombre', 'id');
 
         return view('admin.prestamos.edit')->with([
-            'prestamo'=> $prestamo,
+            'prestamo' => $prestamo,
             'clientes' => $clientes,
             'amortizaciones' => $amortizaciones,
             'modalidades' => $modalidades,
-            'estados' => $estados,
         ]);
     }
 
@@ -187,5 +202,14 @@ class PrestamoController extends AppBaseController
         Flash::success('Prestamo deleted successfully.');
 
         return redirect(route('admin.prestamos.index'));
+    }
+
+    public function getAmortizacion(Request $request)
+    {
+        $datos = $this->prestamoRepository->getAmortizacion($request);
+        return view('admin.prestamos.amortizacion_modal')->with([
+            'datos' => $datos
+        ]);
+
     }
 }

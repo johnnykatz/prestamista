@@ -1,8 +1,28 @@
 @extends('layouts.app')
 @section("scripts")
+    <script src="{!! asset("js/prestamos.js") !!}"></script>
+
     <script>
         $(document).ready(function () {
             inicializarFecha();
+            $(document).ready(function () {
+                $("#mora").keyup(function (event) {
+                    if( $("#pagar").val()=="cuota"){
+                        $("#total_pago").val(Number($("#monto").val()) + Number($("#mora").val()));
+                    }else{
+                        $("#total_pago").val(Number($("#interes").val()) + Number($("#mora").val()));
+                    }
+                    $("#descuento").val("");
+                })
+                $("#descuento").keyup(function (event) {
+                    if( $("#pagar").val()=="cuota"){
+                        $("#total_pago").val(Number($("#monto").val()) - Number($("#descuento").val()));
+                    }else{
+                        $("#total_pago").val(Number($("#interes").val()) - Number($("#descuento").val()));
+                    }
+                    $("#mora").val("");
+                })
+            });
         });
     </script>
 @endsection
@@ -20,7 +40,7 @@
                 <div class="row">
                     {!! Form::open(['route' => 'admin.pagos.store']) !!}
 
-                        @include('admin.pagos.fields')
+                    @include('admin.pagos.fields')
 
                     {!! Form::close() !!}
                 </div>

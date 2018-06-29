@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         @foreach($prestamos as $prestamo)
-            <tr class="@php(print ($prestamo->estado_prestamo_id==1)?'bg-gray-active color-palette':'bg-red disabled color-palette'))">
+            <tr class="@php(print ($prestamo->estado_prestamo_id==1)?"bg-grey color-palette":"bg-red-active color-palette")">
                 <td>{!! $prestamo->cliente->full_name !!}</td>
                 <td>{!! $prestamo->nombre_identificador!!}</td>
                 <td>{!! date("d-m-Y", strtotime($prestamo->fecha_inicio)) !!}</td>
@@ -32,9 +32,9 @@
                 <td>
                     {!! Form::open(['route' => ['admin.prestamos.destroy', $prestamo->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{!! route('admin.prestamos.show', [$prestamo->id]) !!}" class='btn btn-default btn-xs'><i
+                        <a href="{!! route('admin.prestamos.show', [$prestamo->id]) !!}" class='btn btn-success'><i
                                     class="glyphicon glyphicon-eye-open"></i></a>
-                        <a href="{!! route('admin.prestamos.edit', [$prestamo->id]) !!}" class='btn btn-default btn-xs'><i
+                        <a href="{!! route('admin.prestamos.edit', [$prestamo->id]) !!}" class='btn btn-warning'><i
                                     class="glyphicon glyphicon-edit"></i></a>
                         {{--                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}--}}
                     </div>

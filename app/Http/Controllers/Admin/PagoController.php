@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\CreatePagoRequest;
 use App\Http\Requests\Admin\UpdatePagoRequest;
 use App\Models\Admin\FormaPago;
+use App\Models\Admin\Pago;
 use App\Models\Admin\Prestamo;
 use App\Repositories\Admin\PagoRepository;
 use App\Http\Controllers\AppBaseController;
@@ -48,11 +49,11 @@ class PagoController extends AppBaseController
     public function create($id)
     {
         $prestamo = Prestamo::find($id);
-        $datos = $this->pagoRepository->getDatosPago($prestamo);
+        $pago = $this->pagoRepository->getDatosProximoPago($prestamo);
         $formasPagos = FormaPago::orderBy('nombre', 'asc')->pluck('nombre', 'id');
         return view('admin.pagos.create')->with([
             'formasPagos' => $formasPagos,
-            'datos' => $datos,
+            'pago' => $pago,
             'prestamo' => $prestamo,
         ]);
     }
@@ -66,21 +67,44 @@ class PagoController extends AppBaseController
      */
     public function store(CreatePagoRequest $request)
     {
+//        dd('sde');
 //        $prestamo = Prestamo::find($request['prestamos_id']);
-        $request['creado_por'] = Auth::user()->id;
-        $request['mora'] = ($request['mora'] != null) ? $request['mora'] : 0;
-        $request['descuento'] = ($request['descuento'] != null) ? $request['descuento'] : 0;
-        $request['fecha'] = Carbon::createFromFormat('d-m-Y', $request['fecha'])->toDateString();
 
         $prestamo = Prestamo::find($request['prestamo_id']);
-        $prestamo->monto_pendiente = $prestamo->monto_pendiente - $request['capital'];
-        if ($prestamo->monto_pendiente < 1) {
-            $prestamo->estado_prestamo_id = 2;//terminado
-        }
-        $prestamo->save();
-        $input = $request->all();
+        $pago = Pago::find($request['pago_id']);
+        $fecha_vencimiento = $pago->fecha_vencimiento;
+        if ($request['pagar'] == 'cuota') {
+            $pago->estado = true;
+            $pago->fecha = Carbon::createFromFormat('d-m-Y', $request['fecha'])->toDateString();
+            $pago->total_pago = $request['total_pago'];
+            $pago->mora = ($request['mora'] != null) ? $request['mora'] : 0;
+            $pago->descuento = ($request['descuento'] != null) ? $request['descuento'] : 0;
+            $pago->forma_pago_id = $request['forma_pago_id'];
+            $pago->save();
 
-        $pago = $this->pagoRepository->create($input);
+            $prestamo->monto_pendiente = $prestamo->monto_pendiente - $request['capital'];
+
+            if ($pago->cuota = $prestamo->cuotas) {
+                $prestamo->estado_prestamo_id = 2;//terminado
+            }
+            $prestamo->save();
+        } else {
+            $pago = new Pago();
+            $pago->creado_por = Auth::user()->id;
+            $pago->prestamo_id = $prestamo->id;
+            $pago->fecha_vencimiento = $fecha_vencimiento;
+            $pago->estado = true;
+            $pago->interes = $request['interes'];
+            $pago->total_pago = $request['total_pago'];
+            $pago->fecha = Carbon::createFromFormat('d-m-Y', $request['fecha'])->toDateString();
+            $pago->forma_pago_id = $request['forma_pago_id'];
+            $pago->mora = ($request['mora'] != null) ? $request['mora'] : 0;
+            $pago->descuento = ($request['descuento'] != null) ? $request['descuento'] : 0;
+            $pago->save();
+        }
+
+
+        $input = $request->all();
 
         Flash::success('Pago saved successfully.');
 

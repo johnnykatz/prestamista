@@ -24,12 +24,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Prestamo extends Model
 {
-    use SoftDeletes;
+//    use SoftDeletes;
 
     public $table = 'prestamos';
 
 
-    protected $dates = ['deleted_at'];
+//    protected $dates = ['deleted_at'];
 
 
     public $fillable = [

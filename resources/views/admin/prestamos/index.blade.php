@@ -15,8 +15,19 @@
 
         <div class="clearfix"></div>
         <div class="box box-primary">
+            <div class="box-header">
+                <h3 class="box-title">Filtros</h3>
+
+                @include('admin.prestamos.filtros')
+
+            </div>
+        </div>
+        <div class="box box-primary">
             <div class="box-body">
                 @include('admin.prestamos.table')
+                <div class="text-center">
+                    {!! $prestamos->appends(Request::all())->render() !!}
+                </div>
             </div>
         </div>
         <div class="text-center">

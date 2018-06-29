@@ -104,6 +104,7 @@ Route::patch('admin/prestamos/{prestamos}', ['as' => 'admin.prestamos.update', '
 Route::delete('admin/prestamos/{prestamos}', ['as' => 'admin.prestamos.destroy', 'uses' => 'Admin\PrestamoController@destroy']);
 Route::get('admin/prestamos/{prestamos}', ['as' => 'admin.prestamos.show', 'uses' => 'Admin\PrestamoController@show']);
 Route::get('admin/prestamos/{prestamos}/edit', ['as' => 'admin.prestamos.edit', 'uses' => 'Admin\PrestamoController@edit']);
+Route::get('get_amortizacion', ['as' => 'get_amortizacion', 'uses' => 'Admin\PrestamoController@getAmortizacion']);
 
 
 Route::get('admin/formaPagos', ['as' => 'admin.formaPagos.index', 'uses' => 'Admin\FormaPagoController@index']);
