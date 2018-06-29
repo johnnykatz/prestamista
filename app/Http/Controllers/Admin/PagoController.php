@@ -9,6 +9,7 @@ use App\Models\Admin\Pago;
 use App\Models\Admin\Prestamo;
 use App\Repositories\Admin\PagoRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Repositories\Admin\PrestamoRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Flash;
@@ -101,6 +102,12 @@ class PagoController extends AppBaseController
             $pago->mora = ($request['mora'] != null) ? $request['mora'] : 0;
             $pago->descuento = ($request['descuento'] != null) ? $request['descuento'] : 0;
             $pago->save();
+            $pagos_pendientes = Pago::where('prestamo_id', $prestamo->id)->where('estado', false)->get();
+            foreach ($pagos_pendientes as $pago) {
+                $fecha_vencimiento = $this->pagoRepository->getVencimiento($pago->fecha_vencimiento, $prestamo->modalidad_pago_id);
+                $pago->fecha_vencimiento = $fecha_vencimiento;
+                $pago->save();
+            }
         }
 
 
