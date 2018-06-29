@@ -18,7 +18,7 @@
 <!-- Interes Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('interes', 'Interes:') !!}
-    {!! Form::number('interes', null, ['class' => 'form-control','required','step'=>'0.5']) !!}
+    {!! Form::number('interes', null, ['class' => 'form-control','required','step'=>'0.01']) !!}
 </div>
 
 <!-- Cuotas Field -->
