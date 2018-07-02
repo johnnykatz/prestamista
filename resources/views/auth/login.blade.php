@@ -43,7 +43,7 @@
         {{--<p class="login-box-msg">Sign in to start your session</p>--}}
         <div class="login-logo">
             {{--<a href="" style="color:#FFFFFF"><b style="color: #FFFFFF">iDentia</b>Digital</a>--}}
-            <img src="{{asset('imagenes/logo-ministerio.png')}}" style="max-height: 42px; padding: 5px 0 5px 0;">
+            <img src="{{asset('imagenes/logo.png')}}" style="max-height: 60px; padding: 5px 0 5px 0;">
 
         </div>
         <form method="post" action="{{ url('/login') }}">
