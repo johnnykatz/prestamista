@@ -55,7 +55,7 @@ class PrestamoRepository extends BaseRepository
             );
         }
         $prestamos->orderBy('p.estado_prestamo_id', 'ASC')->orderBy('p.id', 'DESC')->select('p.*');
-        return $prestamos->paginate(5);
+        return $prestamos->paginate(10);
 
     }
 

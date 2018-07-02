@@ -120,7 +120,7 @@ class PrestamoController extends AppBaseController
 
             return redirect(route('admin.prestamos.index'));
         }
-        $pagos = Pago::where('prestamo_id', $prestamo->id)->orderBy('fecha_vencimiento', 'asc')->orderBy('numero_cuota','asc')->get();
+        $pagos = Pago::where('prestamo_id', $prestamo->id)->orderBy('fecha_vencimiento', 'asc')->orderBy('numero_cuota', 'asc')->get();
         return view('admin.prestamos.show')->with([
             'prestamo' => $prestamo,
             'pagos' => $pagos,
@@ -211,5 +211,20 @@ class PrestamoController extends AppBaseController
             'datos' => $datos
         ]);
 
+    }
+
+    public function cancelar($id)
+    {
+        $prestamo = Prestamo::find($id);
+        if (empty($prestamo)) {
+            Flash::error('Prestamo not found');
+
+            return redirect(route('admin.prestamos.index'));
+        }
+        $prestamo->estado_prestamo_id = 3;
+        $prestamo->save();
+        Flash::success('Prestamo cancelado con exito.');
+
+        return redirect(route('admin.prestamos.index'));
     }
 }

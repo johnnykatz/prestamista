@@ -17,7 +17,8 @@
         </thead>
         <tbody>
         @foreach($prestamos as $prestamo)
-            <tr class="@php(print ($prestamo->estado_prestamo_id==1)?"bg-grey color-palette":"bg-red-active color-palette")">
+            @php($calse)
+            <tr class="@php(($prestamo->estado_prestamo_id==1)?print "hola":($prestamo->estado_prestamo_id==2)?print 'bg-gray-active color-palette':print "bg-red-active color-palette")">
                 <td>{!! $prestamo->cliente->full_name !!}</td>
                 <td>{!! $prestamo->nombre_identificador!!}</td>
                 <td>{!! date("d-m-Y", strtotime($prestamo->fecha_inicio)) !!}</td>
