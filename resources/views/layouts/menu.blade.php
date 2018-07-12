@@ -1,12 +1,10 @@
-<li class="{{ Request::is('clientes*') ? 'active' : '' }}">
-    <a href="{!! route('admin.clientes.index') !!}"><i class="fa fa-edit"></i><span>Clientes</span></a>
-</li>
-
-
 <li class="{{ Request::is('prestamos*') ? 'active' : '' }}">
     <a href="{!! route('admin.prestamos.index') !!}"><i class="fa fa-edit"></i><span>Prestamos</span></a>
 </li>
 
+<li class="{{ Request::is('clientes*') ? 'active' : '' }}">
+    <a href="{!! route('admin.clientes.index') !!}"><i class="fa fa-edit"></i><span>Clientes</span></a>
+</li>
 
 {{--<li class="{{ Request::is('pagos*') ? 'active' : '' }}">--}}
     {{--<a href="{!! route('admin.pagos.index') !!}"><i class="fa fa-edit"></i><span>Pagos</span></a>--}}
