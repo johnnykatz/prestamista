@@ -68,9 +68,6 @@ class PagoController extends AppBaseController
      */
     public function store(CreatePagoRequest $request)
     {
-//        dd('sde');
-//        $prestamo = Prestamo::find($request['prestamos_id']);
-
         $prestamo = Prestamo::find($request['prestamo_id']);
         $pago = Pago::find($request['pago_id']);
         $fecha_vencimiento = $pago->fecha_vencimiento;
