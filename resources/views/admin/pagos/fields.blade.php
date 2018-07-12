@@ -29,7 +29,7 @@
 </div>
 <div class="form-group col-sm-6">
     {!! Form::label('total_pago', 'Monto a Pagar:') !!}
-    {!! Form::text('total_pago', number_format($pago->total_pago,2,',','.'), ['class' => 'form-control','required','readonly']) !!}
+    {!! Form::text('total_pago', $pago->total_pago, ['class' => 'form-control','required','readonly']) !!}
 </div>
 
 <!-- Forma Pago Id Field -->
