@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\Models\Admin\Pago;
 use App\Models\Admin\Prestamo;
 use Carbon\Carbon;
 use InfyOm\Generator\Common\BaseRepository;
@@ -54,10 +55,51 @@ class PrestamoRepository extends BaseRepository
             }
             );
         }
-        $prestamos->orderBy('p.estado_prestamo_id', 'ASC')->orderBy('p.id', 'DESC')->select('p.*');
-        return $prestamos->paginate(10);
+        $prestamos = $prestamos->orderBy('p.estado_prestamo_id', 'ASC')->orderBy('p.id', 'DESC')->select('p.*')->paginate(10);
+        $prestamos = $this->asignarDeudaPrestamos($prestamos);
+        return $prestamos;
 
     }
+
+    private function asignarDeudaPrestamos($prestamos)
+    {
+        foreach ($prestamos as $prestamo) {
+            $prestamo->deuda = $this->getResumenDeuda($prestamo);
+        }
+        return $prestamos;
+    }
+
+    private function getResumenDeuda($prestamo)
+    {
+        $pago = Pago::where('prestamo_id', $prestamo->id)->where('estado', false)->orderBy('fecha_vencimiento', 'asc')->orderBy('numero_cuota', 'asc')->first();
+        if (!$pago or $prestamo->estado_prestamo_id != 1) {
+            $result['cuotas_deuda'] = 0;
+            $result['monto_deuda'] = 0;
+            $result['proximo_vencimiento'] = null;
+            return $result;
+        }
+        $fecha = date('Y-m-d');
+        $result['cuotas_deuda'] = 0;
+        $result['monto_deuda'] = 0;
+        if ($pago->fecha_vencimiento < $fecha) {
+            $fecha_vencimiento = $pago->fecha_vencimiento;
+            $interes = $pago->interes;
+            while (true) {
+                if ($fecha_vencimiento < $fecha) {
+                    $result['cuotas_deuda']++;
+                    $result['monto_deuda'] += $interes;
+                } else {
+                    break;
+                }
+                $fecha_vencimiento = $this->getVencimiento($fecha_vencimiento, $prestamo->modalidad_pago_id);
+            }
+            $result['proximo_vencimiento'] = $fecha_vencimiento;
+        } else {
+            $result['proximo_vencimiento'] = $pago->fecha_vencimiento;
+        }
+        return $result;
+    }
+
 
     public function getAmortizacion($params)
     {

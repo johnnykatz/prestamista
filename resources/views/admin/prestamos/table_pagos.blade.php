@@ -11,6 +11,7 @@
             <th>Descuento</th>
             <th>Total Pagado</th>
             <th>Capital Restante</th>
+            <th>Obs</th>
             {{--<th colspan="3">Acciones</th>--}}
         </tr>
         </thead>
@@ -30,6 +31,12 @@
                 <td>${!! number_format($pago->descuento,'2','.',',') !!}</td>
                 <td>${!! number_format($pago->total_pago,'2','.',',') !!}</td>
                 <td>${!! number_format($pendiente,'2','.',',') !!}</td>
+                <td>
+                    @if($pago->observacion!="")
+                        <span class='btn btn-default btn-xs' title="{!! $pago->observacion !!}"><i
+                                    class="glyphicon glyphicon-eye-open"></i></span>
+                    @endif
+                </td>
                 {{--<td></td>--}}
             </tr>
         @endforeach

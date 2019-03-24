@@ -78,6 +78,7 @@ class PagoController extends AppBaseController
             $pago->mora = ($request['mora'] != null) ? $request['mora'] : 0;
             $pago->descuento = ($request['descuento'] != null) ? $request['descuento'] : 0;
             $pago->forma_pago_id = $request['forma_pago_id'];
+            $pago->observacion = $request['observacion'];
             $pago->save();
 
             $prestamo->monto_pendiente = $prestamo->monto_pendiente - $request['capital'];
@@ -98,6 +99,8 @@ class PagoController extends AppBaseController
             $pago->forma_pago_id = $request['forma_pago_id'];
             $pago->mora = ($request['mora'] != null) ? $request['mora'] : 0;
             $pago->descuento = ($request['descuento'] != null) ? $request['descuento'] : 0;
+            $pago->observacion = $request['observacion'];
+
             $pago->save();
             $pagos_pendientes = Pago::where('prestamo_id', $prestamo->id)->where('estado', false)->get();
             foreach ($pagos_pendientes as $pago) {
