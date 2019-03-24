@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <h4>{!! $prestamo->cliente->full_name or null !!}</h4>
+    <h4>{!! $prestamo->cliente->full_name or null !!} / {!! $prestamo->nombre_identificador or null !!}</h4>
     <hr>
     <p><strong>id:</strong> {!! $prestamo->id!!}</p>
     <p><strong>Capital actual:</strong> $ {!! number_format($prestamo->monto_pendiente,'2','.',',')!!}</p>

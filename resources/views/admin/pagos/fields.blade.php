@@ -38,6 +38,11 @@
     {!! Form::select('forma_pago_id',$formasPagos,null,['class'=>'form-control','required']) !!}
 </div>
 
+<!-- Observacion Field -->
+<div class="form-group col-sm-12 col-lg-12">
+    {!! Form::label('observacion', 'Observacion:') !!}
+    {!! Form::textarea('observacion', null, ['class' => 'form-control','size'=>'30x5']) !!}
+</div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

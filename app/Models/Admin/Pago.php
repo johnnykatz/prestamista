@@ -44,6 +44,7 @@ class Pago extends Model
         'prestamo_id',
         'numero_cuota',
         'fecha_vencimiento',
+        'observacion',
     ];
 
     /**
