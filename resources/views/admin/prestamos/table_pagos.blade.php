@@ -21,7 +21,9 @@
         @foreach($pagos as $pago)
             @php($pendiente=($pago->capital>0)?$pendiente-$pago->capital:$pendiente)
             @php($i++)
-            <tr class="{!! ($pago->estado)?print 'bg-gray-active color-palette':(strtotime($pago->fecha_vencimiento)<strtotime(date('Y-m-d')))?print'bg-red disabled color-palette':'' !!}">
+            <tr class="{!! ($pago->estado ? 'bg-gray-active color-palette' : (strtotime($pago->fecha_vencimiento) < strtotime(date('Y-m-d')) ? 'bg-red disabled color-palette' : '')) !!}">
+
+            {{--            <tr class="{!! ($pago->estado)?print 'bg-gray-active color-palette':(strtotime($pago->fecha_vencimiento)<strtotime(date('Y-m-d')))?print'bg-red disabled color-palette':'' !!}">--}}
                 <td align="center">{!! $pago->numero_cuota !!}</td>
                 <td>{!! ($pago->fecha_vencimiento)?date("d-m-Y",strtotime($pago->fecha_vencimiento)):null !!}</td>
                 <td>{!! ($pago->fecha)?date("d-m-Y",strtotime($pago->fecha)):null !!}</td>

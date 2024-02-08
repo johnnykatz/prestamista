@@ -19,7 +19,22 @@
         </thead>
         <tbody>
         @foreach($prestamos as $prestamo)
-            <tr class="@php(($prestamo->estado_prestamo_id==1)?($prestamo->deuda['cuotas_deuda']>0)?print 'bg-yellow-active color-palette':print "hola":($prestamo->estado_prestamo_id==2)?print 'bg-gray-active color-palette':print "bg-red-active color-palette")">
+            @php
+                $class = '';
+                if ($prestamo->estado_prestamo_id == 1) {
+                    if ($prestamo->deuda['cuotas_deuda'] > 0) {
+                        $class = 'bg-yellow-active color-palette';
+                    } else {
+                        $class = 'hola';
+                    }
+                } elseif ($prestamo->estado_prestamo_id == 2) {
+                    $class = 'bg-gray-active color-palette';
+                } else {
+                    $class = 'bg-red-active color-palette';
+                }
+            @endphp
+
+            <tr class="{{ $class }}">
                 <td>{!! $prestamo->cliente->full_name !!}</td>
                 <td>{!! $prestamo->nombre_identificador!!}</td>
                 <td>{!! date("d-m-Y", strtotime($prestamo->fecha_inicio)) !!}</td>

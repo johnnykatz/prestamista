@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  site:
+    build:
+      context: .
+      dockerfile: docker/nginx/nginx.dockerfile
+    container_name: nginx_${APP_ENV}
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST=${APP_DOMAIN}
+    expose:
+      - 80
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - php
+      - ftp
+      - mailhog
+      - redis
+      - meilisearch
+    networks:
+      - app-network
+      - iris_network_proxy
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/php.dockerfile
+#    container_name: php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+  iris_network_proxy:
+    external: true

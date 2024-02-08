@@ -11,7 +11,6 @@
         "fideloper/proxy": "~3.3",
         "infyomlabs/adminlte-templates": "5.5.x-dev",
         "infyomlabs/laravel-generator": "5.5.x-dev",
-        "infyomlabs/swagger-generator": "dev-master",
         "jlapp/swaggervel": "dev-master",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
@@ -61,6 +60,10 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "kylekatarnls/update-helper": true,
+            "symfony/thanks": true
+        }
     }
 }
